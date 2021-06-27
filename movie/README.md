@@ -1,9 +1,12 @@
 # Movie
-
 A new Movie project.
 
 ## Description
 Provider 기술을 사용하였다.
+참고내용.
+https://www.youtube.com/c/%EA%B0%9C%EB%B0%9C%ED%95%98%EB%8A%94%EB%82%A8%EC%9E%90/videos
+1: https://www.youtube.com/watch?v=Mf9eDfi-VhU
+2: https://www.youtube.com/watch?v=dkQvARt7pEk
 
 ## Getting Started
 
