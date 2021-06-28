@@ -1,113 +1,203 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_sms/flutter_sms.dart';
+import 'package:smssend/sms_send.dart';
+
+//void main() => runApp(MyApp());
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(
+    title: "Rotation Demo",
+    home: SendSms(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  TextEditingController _controllerPeople, _controllerMessage;
+
+  String _message, body;
+
+  String _canSendSMSMessage = 'Check is not run.';
+  List<String> people = [];
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  Future<void> initPlatformState() async {
+    _controllerPeople = TextEditingController();
+    _controllerMessage = TextEditingController();
+  }
+
+  Future<void> _sendSMS(List<String> recipients) async {
+    try {
+      String _result = await sendSMS(message: _controllerMessage.text, recipients: recipients);
+      setState(() => _message = _result);
+    } catch (error) {
+      setState(() => _message = error.toString());
+    }
+  }
+
+  Future<bool> _canSendSMS() async {
+    bool _result = await canSendSMS();
+    setState(() => _canSendSMSMessage = _result ? 'This unit can send SMS' : 'This unit cannot send SMS');
+    return _result;
+  }
+
+  Widget _phoneTile(String name) {
+    return Padding(
+      padding: const EdgeInsets.all(3),
+      child: Container(
+          decoration: BoxDecoration(
+              border: Border(
+            bottom: BorderSide(color: Colors.grey.shade300),
+            top: BorderSide(color: Colors.grey.shade300),
+            left: BorderSide(color: Colors.grey.shade300),
+            right: BorderSide(color: Colors.grey.shade300),
+          )),
+          child: Padding(
+            padding: const EdgeInsets.all(4),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => setState(() => people.remove(name)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Text(
+                    name,
+                    textScaleFactor: 1,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                )
+              ],
+            ),
+          )),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('SMS/MMS Example'),
+        ),
+        body: ListView(
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            if (people == null || people.isEmpty)
+              const SizedBox(height: 0)
+            else
+              SizedBox(
+                height: 90,
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: List<Widget>.generate(people.length, (int index) {
+                      return _phoneTile(people[index]);
+                    }),
+                  ),
+                ),
+              ),
+            ListTile(
+              leading: const Icon(Icons.people),
+              title: TextField(
+                controller: _controllerPeople,
+                decoration:
+                    const InputDecoration(labelText: 'Add Phone Number'),
+                keyboardType: TextInputType.number,
+                onChanged: (String value) => setState(() {}),
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: _controllerPeople.text.isEmpty
+                    ? null
+                    : () => setState(() {
+                          people.add(_controllerPeople.text.toString());
+                          _controllerPeople.clear();
+                        }),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.message),
+              title: TextField(
+                decoration: const InputDecoration(labelText: 'Add Message'),
+                controller: _controllerMessage,
+                onChanged: (String value) => setState(() {}),
+              ),
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text('Can send SMS'),
+              subtitle: Text(_canSendSMSMessage),
+              trailing: IconButton(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                icon: const Icon(Icons.check),
+                onPressed: () {
+                  _canSendSMS();
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                      (states) => Theme.of(context).accentColor),
+                  padding: MaterialStateProperty.resolveWith(
+                      (states) => const EdgeInsets.symmetric(vertical: 16)),
+                ),
+                onPressed: () {
+                  _send();
+                },
+                child: Text(
+                  'SEND',
+                  style: Theme.of(context).accentTextTheme.button,
+                ),
+              ),
+            ),
+            Visibility(
+              visible: _message != null,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(
+                        _message ?? 'No Data',
+                        maxLines: null,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void _send() {
+    if (people.isEmpty) {
+      setState(() => _message = 'At Least 1 Person or Message Required');
+    } else {
+      _sendSMS(people);
+    }
   }
 }
