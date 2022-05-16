@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:shop_app_ui/screens/defaults/details_screen.dart';
 
 import '../../../constants.dart';
 import '../../../models/Product.dart';
@@ -25,14 +25,21 @@ class NewArrival extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
               demo_product.length,
-                  (index) => Padding(
+              (index) => Padding(
                 padding: const EdgeInsets.only(left: defaultPadding),
                 child: ProductCard(
-                  image: "assets/images/product_$index.png",
+                  image: demo_product[index].image,
                   title: demo_product[index].title,
                   price: demo_product[index].price,
                   bgColor: demo_product[index].bgColor,
-                  press: () {},
+                  press: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailsScreen(product: demo_product[index],),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
