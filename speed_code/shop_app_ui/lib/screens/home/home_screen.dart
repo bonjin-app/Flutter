@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shop_app_ui/constants.dart';
 
+import 'components/categories.dart';
 import 'components/search_form.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -57,10 +58,12 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: defaultPadding),
               child: SearchForm(),
             ),
+            const Categories(),
           ],
         ),
       ),
     );
   }
 }
+
 
