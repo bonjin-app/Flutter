@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "934321345531",
+    "project_id": "bonjin-push",
+    "storage_bucket": "bonjin-push.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934321345531:android:b02fcbeefbb2369134f15e",
+        "android_client_info": {
+          "package_name": "kr.co.bonjin.push.cloud_message"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "934321345531-634huj76i0kgatcg16r0fas3q2sahsro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsOmu0dV19wa1bmydewOJNsCRPFL6fkBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "934321345531-634huj76i0kgatcg16r0fas3q2sahsro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "934321345531-fov8joshsev3sjdk7f23kukqat8n1hnb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "kr.co.bonjin.push"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
