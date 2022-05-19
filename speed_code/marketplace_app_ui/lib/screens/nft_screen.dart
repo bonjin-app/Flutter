@@ -10,6 +10,16 @@ class NFTScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 20,),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       backgroundColor: Colors.black,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +121,9 @@ class NFTScreen extends StatelessWidget {
                 intervalStart: 0.8,
                 child: Text(
                   'Place Bid',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Colors.white),
+                  style: TextStyle(fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
             ),
