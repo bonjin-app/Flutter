@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'simple_state_manager.dart';
+import 'widgets/simple_state_manager.dart';
 
 void main() {
   runApp(const MyApp());

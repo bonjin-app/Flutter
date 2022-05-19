@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'controller.dart';
+import '../controller/controller.dart';
 
 class SimpleExample1 extends StatelessWidget {
   const SimpleExample1({Key? key}) : super(key: key);
