@@ -76,7 +76,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
           // 텍스트 폼 필드
           Positioned(
             top: 180,
-            child: Container(
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              curve: Curves.easeIn,
               padding: const EdgeInsets.all(20.0),
               height: isSignupScreen ? 280 : 250,
               width: MediaQuery.of(context).size.width - 40,
@@ -338,7 +340,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             ),
           ),
           // 전송 버튼
-          Positioned(
+          AnimatedPositioned(
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeIn,
             top: isSignupScreen ? 430 : 390,
             right: 0,
             left: 0,
