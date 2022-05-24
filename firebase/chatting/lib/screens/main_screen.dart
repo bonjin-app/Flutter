@@ -1,3 +1,5 @@
+import 'package:chatting/screens/chat_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../config/palette.dart';
@@ -10,6 +12,7 @@ class LoginSignupScreen extends StatefulWidget {
 }
 
 class _LoginSignupScreenState extends State<LoginSignupScreen> {
+  final _authentication = FirebaseAuth.instance;
   bool isSignupScreen = true;
   final _formKey = GlobalKey<FormState>();
   String userName = '';
@@ -19,7 +22,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   void _tryValidation() {
     final isValid = _formKey.currentState?.validate() ?? false;
 
-    if(isValid) {
+    if (isValid) {
       _formKey.currentState?.save();
     }
   }
@@ -187,7 +190,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   },
                                   key: ValueKey(1),
                                   validator: (value) {
-                                    if(value == null || value.isEmpty || value.length < 4) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        value.length < 4) {
                                       return 'Please enter at least 5 characters';
                                     }
                                     return null;
@@ -195,7 +200,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   onSaved: (value) {
                                     userName = value!;
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.account_circle,
                                       color: Palette.iconColor,
@@ -230,7 +235,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                 TextFormField(
                                   key: ValueKey(2),
                                   validator: (value) {
-                                    if(value == null || value.isEmpty || value.contains("@")) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !value.contains("@")) {
                                       return 'Please enter a valid email address';
                                     }
                                     return null;
@@ -242,7 +249,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     userEmail = value!;
                                   },
                                   keyboardType: TextInputType.emailAddress,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.email,
                                       color: Palette.iconColor,
@@ -283,13 +290,15 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     userPassword = value;
                                   },
                                   validator: (value) {
-                                    if(value == null || value.isEmpty || value.length < 6) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        value.length < 6) {
                                       return 'Password must be at least 7 characters long.';
                                     }
                                     return null;
                                   },
                                   obscureText: true,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.lock,
                                       color: Palette.iconColor,
@@ -332,7 +341,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                 TextFormField(
                                   key: ValueKey(4),
                                   validator: (value) {
-                                    if(value == null || value.isEmpty || value.contains("@")) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !value.contains("@")) {
                                       return 'Please enter a valid email address';
                                     }
                                     return null;
@@ -344,7 +355,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     userEmail = value;
                                   },
                                   keyboardType: TextInputType.emailAddress,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.email,
                                       color: Palette.iconColor,
@@ -379,7 +390,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                 TextFormField(
                                   key: ValueKey(5),
                                   validator: (value) {
-                                    if(value == null || value.isEmpty || value.length < 6) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        value.length < 6) {
                                       return 'Password must be at least 7 characters long.';
                                     }
                                     return null;
@@ -387,11 +400,10 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   onChanged: (value) {
                                     userPassword = value;
                                   },
-                                  obscureText: true,
                                   onSaved: (value) {
                                     userPassword = value!;
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.lock,
                                       color: Palette.iconColor,
@@ -431,14 +443,14 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             ),
             // 전송 버튼
             AnimatedPositioned(
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               curve: Curves.easeIn,
               top: isSignupScreen ? 430 : 390,
               right: 0,
               left: 0,
               child: Center(
                 child: Container(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   height: 90,
                   width: 90,
                   decoration: BoxDecoration(
@@ -446,10 +458,60 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: GestureDetector(
-                    onTap: _tryValidation,
+                    onTap: () async {
+                      if (isSignupScreen) {
+                        _tryValidation();
+
+                        try {
+                          final newUser = await _authentication
+                              .createUserWithEmailAndPassword(
+                                  email: userEmail, password: userPassword);
+
+                          if (newUser.user != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatScreen()));
+                          }
+                        } catch (e) {
+                          print(e);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Please check your email and password'),
+                              backgroundColor: Colors.blue,
+                            ),
+                          );
+                        }
+                      } else {
+                        _tryValidation();
+
+                        try {
+                          final newUser =
+                              await _authentication.signInWithEmailAndPassword(
+                                  email: userEmail, password: userPassword);
+
+                          if (newUser.user != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatScreen()));
+                          }
+                        } catch (e) {
+                          print(e);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Please check your email and password'),
+                              backgroundColor: Colors.blue,
+                            ),
+                          );
+                        }
+                      }
+                    },
                     child: Container(
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           colors: [
                             Colors.orange,
                             Colors.red,
@@ -467,7 +529,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                           ),
                         ],
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.arrow_forward,
                         color: Colors.white,
                       ),
@@ -480,7 +542,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             AnimatedPositioned(
               duration: Duration(milliseconds: 500),
               curve: Curves.easeIn,
-              top: isSignupScreen ?  MediaQuery.of(context).size.height - 125 : MediaQuery.of(context).size.height - 165,
+              top: isSignupScreen
+                  ? MediaQuery.of(context).size.height - 125
+                  : MediaQuery.of(context).size.height - 165,
               left: 0,
               right: 0,
               child: Column(
