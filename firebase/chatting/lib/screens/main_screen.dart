@@ -93,7 +93,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             Positioned(
               top: 180,
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 500),
                 curve: Curves.easeIn,
                 padding: const EdgeInsets.all(20.0),
                 height: isSignupScreen ? 280 : 250,
@@ -176,12 +176,15 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                       ),
                       if (isSignupScreen)
                         Container(
-                          margin: EdgeInsets.only(top: 20),
+                          margin: const EdgeInsets.only(top: 20),
                           child: Form(
                             key: _formKey,
                             child: Column(
                               children: [
                                 TextFormField(
+                                  onChanged: (value) {
+                                    userName = value;
+                                  },
                                   key: ValueKey(1),
                                   validator: (value) {
                                     if(value == null || value.isEmpty || value.length < 4) {
@@ -232,9 +235,13 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     }
                                     return null;
                                   },
+                                  onChanged: (value) {
+                                    userEmail = value;
+                                  },
                                   onSaved: (value) {
                                     userEmail = value!;
                                   },
+                                  keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.email,
@@ -272,12 +279,16 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     userPassword = value!;
                                   },
                                   key: ValueKey(3),
+                                  onChanged: (value) {
+                                    userPassword = value;
+                                  },
                                   validator: (value) {
                                     if(value == null || value.isEmpty || value.length < 6) {
                                       return 'Password must be at least 7 characters long.';
                                     }
                                     return null;
                                   },
+                                  obscureText: true,
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.lock,
@@ -329,6 +340,10 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   onSaved: (value) {
                                     userEmail = value!;
                                   },
+                                  onChanged: (value) {
+                                    userEmail = value;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.email,
@@ -369,6 +384,10 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     }
                                     return null;
                                   },
+                                  onChanged: (value) {
+                                    userPassword = value;
+                                  },
+                                  obscureText: true,
                                   onSaved: (value) {
                                     userPassword = value!;
                                   },
