@@ -17,50 +17,60 @@ class RowAndColumnScreen extends StatelessWidget {
                 children: [
                   Container(
                     color: Colors.red,
-                    width: 50, height: 50,
+                    width: 50,
+                    height: 50,
                   ),
                   Container(
                     color: Colors.orange,
-                    width: 50, height: 50,
+                    width: 50,
+                    height: 50,
                   ),
                   Container(
                     color: Colors.yellow,
-                    width: 50, height: 50,
+                    width: 50,
+                    height: 50,
                   ),
                   Container(
                     color: Colors.green,
-                    width: 50, height: 50,
+                    width: 50,
+                    height: 50,
                   ),
                 ],
               ),
               Container(
                 color: Colors.orange,
-                width: 50, height: 50,
+                width: 50,
+                height: 50,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
                     color: Colors.red,
-                    width: 50, height: 50,
+                    width: 50,
+                    height: 50,
                   ),
                   Container(
                     color: Colors.orange,
-                    width: 50, height: 50,
+                    width: 50,
+                    height: 50,
                   ),
                   Container(
                     color: Colors.yellow,
-                    width: 50, height: 50,
+                    width: 50,
+                    height: 50,
                   ),
                   Container(
                     color: Colors.green,
-                    width: 50, height: 50,
+                    width: 50,
+                    height: 50,
                   ),
                 ],
               ),
               Container(
                 color: Colors.green,
-                width: 50, height: 50,
+                width: 50,
+                height: 50,
               ),
             ],
           ),
