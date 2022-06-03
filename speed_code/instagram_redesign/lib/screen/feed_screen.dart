@@ -22,7 +22,7 @@ class _FeedScreenState extends State<FeedScreen> {
               children: [
                 Text(
                   'Instagram',
-                  style: TextStyle(fontSize: 32),
+                  style: TextStyle(fontFamily: "Billabong",fontSize: 32),
                 ),
                 Row(
                   children: [
