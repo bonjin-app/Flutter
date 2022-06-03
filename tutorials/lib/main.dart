@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tutorials/screens/row_and_column_screen.dart';
+import 'package:tutorials/screens/contact_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: RowAndColumnScreen(),
+      home: ContactScreen(),
     );
   }
 }
