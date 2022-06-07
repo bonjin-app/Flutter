@@ -68,7 +68,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => ViewPostScreen(),
+                          builder: (_) => ViewPostScreen(post: posts[index]),
                         ),
                       );
                     },
@@ -125,7 +125,8 @@ class _FeedScreenState extends State<FeedScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => ViewPostScreen(),
+                                        builder: (_) =>
+                                            ViewPostScreen(post: posts[index]),
                                       ),
                                     );
                                   },
@@ -243,6 +244,64 @@ class _FeedScreenState extends State<FeedScreen> {
           _buildPost(0),
           _buildPost(1),
         ],
+      ),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.dashboard,
+                size: 30,
+                color: Colors.black,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.search,
+                size: 30,
+                color: Colors.grey,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                child: FlatButton(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  onPressed: (){},
+                  child: Icon(Icons.add, size: 35, color: Colors.white,),
+                  color: Color(0xFF23B66F),
+                ),
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.favorite_border,
+                size: 30,
+                color: Colors.grey,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person_outline,
+                size: 30,
+                color: Colors.grey,
+              ),
+              label: '',
+            ),
+          ],
+        ),
       ),
     );
   }
