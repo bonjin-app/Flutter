@@ -63,7 +63,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       onPressed: () => {},
                     ),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
@@ -72,22 +72,25 @@ class _FeedScreenState extends State<FeedScreen> {
                         ),
                       );
                     },
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      width: double.infinity,
-                      height: 400,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black45,
-                            offset: Offset(0, 5),
-                            blurRadius: 8,
+                    child: Hero(
+                      tag: posts[index].imageUrl,
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        width: double.infinity,
+                        height: 400,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black45,
+                              offset: Offset(0, 5),
+                              blurRadius: 8,
+                            ),
+                          ],
+                          image: DecorationImage(
+                            image: AssetImage(posts[index].imageUrl),
+                            fit: BoxFit.fitWidth,
                           ),
-                        ],
-                        image: DecorationImage(
-                          image: AssetImage(posts[index].imageUrl),
-                          fit: BoxFit.fitWidth,
                         ),
                       ),
                     ),
