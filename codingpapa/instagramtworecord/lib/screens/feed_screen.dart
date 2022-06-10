@@ -7,7 +7,13 @@ class FeedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Instagram', style: TextStyle(fontFamily: 'VeganStyle'),),
+        title: Text(
+          'Instagram',
+          style: TextStyle(
+            fontFamily: 'VeganStyle',
+            color: Colors.black87,
+          ),
+        ),
       ),
     );
   }
