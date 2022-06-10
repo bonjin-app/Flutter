@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -6,13 +7,43 @@ class FeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
+      appBar: CupertinoNavigationBar(
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(
+            CupertinoIcons.photo_camera_solid,
+            color: Colors.black87,
+          ),
+        ),
+        middle: Text(
           'Instagram',
           style: TextStyle(
             fontFamily: 'VeganStyle',
             color: Colors.black87,
           ),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              onPressed: () {},
+              icon: ImageIcon(
+                AssetImage(
+                  'assets/images/actionbar_camera.png',
+                ),
+                color: Colors.blue,
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: ImageIcon(
+                AssetImage(
+                  'assets/images/actionbar_camera.png',
+                ),
+                color: Colors.red,
+              ),
+            ),
+          ],
         ),
       ),
       body: ListView.builder(
