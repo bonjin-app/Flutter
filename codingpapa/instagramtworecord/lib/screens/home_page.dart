@@ -24,9 +24,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('cool app'),
-      ),
       body: IndexedStack(
         index: _selectedIndex,
         children: _screens,
