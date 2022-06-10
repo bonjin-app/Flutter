@@ -12,20 +12,31 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
+  static List<Widget> _screens = [
+    Container(color: Colors.amberAccent,),
+    Container(color: Colors.red,),
+    Container(color: Colors.blue,),
+    Container(color: Colors.black,),
+    Container(color: Colors.pink,),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('cool app'),
       ),
-      body: Container(
-        color: Colors.amberAccent,
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.black87,
         currentIndex: _selectedIndex,
         onTap: _onBottomItemClick,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
