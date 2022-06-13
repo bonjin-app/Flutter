@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:instagramtworecord/constants/common_size.dart';
 import 'package:instagramtworecord/widgets/custom_progress_indicator.dart';
 
+import 'rounded_avatar.dart';
+
 class Post extends StatelessWidget {
   Post({
     Key? key,
@@ -29,13 +31,7 @@ class Post extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(common_xxs_gap),
-          child: ClipOval(
-            child: CachedNetworkImage(
-              imageUrl: 'https://picsum.photos/100',
-              width: avatar_size,
-              height: avatar_size,
-            ),
-          ),
+          child: RoundedAvatar(),
         ),
         Expanded(
           child: Text(
@@ -75,3 +71,5 @@ class Post extends StatelessWidget {
     );
   }
 }
+
+
