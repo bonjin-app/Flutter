@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:instagramtworecord/widgets/custom_progress_indicator.dart';
 
 class Post extends StatelessWidget {
   Post({
@@ -17,17 +18,7 @@ class Post extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: 'https://picsum.photos/id/$index/2000/2000',
       placeholder: (context, url) {
-        return Container(
-          child: Center(
-            child: SizedBox(
-              child: CircularProgressIndicator(backgroundColor: Colors.black),
-              width: 60,
-              height: 60,
-            ),
-          ),
-          width: size!.width,
-          height: size!.width,
-        );
+        return CustomProgressIndicator(containerSize: size!.width);
       },
       imageBuilder: (context, imageProvider) {
         return AspectRatio(
