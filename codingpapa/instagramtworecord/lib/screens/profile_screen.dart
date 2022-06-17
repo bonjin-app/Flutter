@@ -15,6 +15,7 @@ class ProfileScreen extends StatelessWidget {
             _appbar(),
             _username(),
             _userBio(),
+            _editProfileButton(),
           ],
         ),
       ),
@@ -28,14 +29,18 @@ class ProfileScreen extends StatelessWidget {
         height: 24,
         child: OutlinedButton(
           onPressed: () {},
-          style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
-          )),
           child: Text(
             'Edit Profile',
-            style:
-                TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          style: OutlinedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
+            primary: Colors.black87,
           ),
         ),
       ),
