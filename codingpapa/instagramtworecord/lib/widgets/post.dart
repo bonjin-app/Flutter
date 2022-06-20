@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:instagramtworecord/constants/common_size.dart';
 import 'package:instagramtworecord/widgets/custom_progress_indicator.dart';
 
+import '../constants/screen_size.dart';
 import 'comment.dart';
 import 'rounded_avatar.dart';
 
@@ -13,7 +14,6 @@ class Post extends StatelessWidget {
   }) : super(key: key);
 
   final int index;
-  Size? size;
 
   @override
   Widget build(BuildContext context) {
