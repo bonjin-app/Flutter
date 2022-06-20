@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagramtworecord/constants/screen_size.dart';
 
@@ -11,7 +12,7 @@ class ProfileBody extends StatefulWidget {
 }
 
 class _ProfileBodyState extends State<ProfileBody> {
-  bool selectedLeft = true;
+  SelectedTab _selectedTab = SelectedTab.left;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,21 @@ class _ProfileBodyState extends State<ProfileBody> {
               ],
             ),
           ),
+          SliverToBoxAdapter(
+            child: GridView.count(
+              physics: NeverScrollableScrollPhysics(),
+              crossAxisCount: 3,
+              shrinkWrap: true,
+              childAspectRatio: 1,
+              children: List.generate(
+                30,
+                (index) => CachedNetworkImage(
+                  imageUrl: "https://picsum.photos/id/$index/100/100",
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -37,7 +53,9 @@ class _ProfileBodyState extends State<ProfileBody> {
   Widget _selectedIndicator() {
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
-      alignment: selectedLeft ? Alignment.centerLeft : Alignment.centerRight,
+      alignment: _selectedTab == SelectedTab.left
+          ? Alignment.centerLeft
+          : Alignment.centerRight,
       child: Container(
         height: 3,
         width: MediaQuery.of(context).size.width / 2,
@@ -49,35 +67,39 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   Row _tabButtons() {
     return Row(
-                children: [
-                  Expanded(
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedLeft = true;
-                        });
-                      },
-                      icon: ImageIcon(
-                        AssetImage('assets/images/grid.png'),
-                        color: selectedLeft ? Colors.black : Colors.black26,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedLeft = false;
-                        });
-                      },
-                      icon: ImageIcon(
-                        AssetImage('assets/images/saved.png'),
-                        color: selectedLeft ? Colors.black26 : Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
-              );
+      children: [
+        Expanded(
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _selectedTab = SelectedTab.left;
+              });
+            },
+            icon: ImageIcon(
+              AssetImage('assets/images/grid.png'),
+              color: _selectedTab == SelectedTab.left
+                  ? Colors.black
+                  : Colors.black26,
+            ),
+          ),
+        ),
+        Expanded(
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _selectedTab = SelectedTab.right;
+              });
+            },
+            icon: ImageIcon(
+              AssetImage('assets/images/saved.png'),
+              color: _selectedTab == SelectedTab.left
+                  ? Colors.black26
+                  : Colors.black,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Padding _editProfileButton() {
@@ -129,4 +151,9 @@ class _ProfileBodyState extends State<ProfileBody> {
       ),
     );
   }
+}
+
+enum SelectedTab {
+  left,
+  right,
 }
