@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagramtworecord/constants/common_size.dart';
+import 'package:instagramtworecord/widgets/profile_body.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -13,75 +14,13 @@ class ProfileScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _appbar(),
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        _username(),
-                        _userBio(),
-                        _editProfileButton(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            ProfileBody(),
           ],
         ),
       ),
     );
   }
 
-  Padding _editProfileButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: common_gap),
-      child: SizedBox(
-        height: 24,
-        child: OutlinedButton(
-          onPressed: () {},
-          child: Text(
-            'Edit Profile',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          style: OutlinedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-            ),
-            primary: Colors.black87,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _username() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: common_gap),
-      child: Text(
-        'username',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
-  Widget _userBio() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: common_gap),
-      child: Text(
-        'this is what I believe!!',
-        style: TextStyle(
-          fontWeight: FontWeight.w400,
-        ),
-      ),
-    );
-  }
 
   Row _appbar() {
     return Row(
