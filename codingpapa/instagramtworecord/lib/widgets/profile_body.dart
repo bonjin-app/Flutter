@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagramtworecord/constants/screen_size.dart';
@@ -18,7 +20,6 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   @override
   Widget build(BuildContext context) {
-
     print(size.width);
 
     return Expanded(
@@ -43,47 +44,39 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   SliverToBoxAdapter _imagesPager() {
     return SliverToBoxAdapter(
-          child: Stack(
-            children: [
-              AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                transform: Matrix4.translationValues(_leftImagesMargin, 0, 0),
-                curve: Curves.easeInOut,
-                child: GridView.count(
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  childAspectRatio: 1,
-                  children: List.generate(
-                    30,
-                    (index) => CachedNetworkImage(
-                      imageUrl: "https://picsum.photos/id/$index/100/100",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                transform: Matrix4.translationValues(_rightImagesMargin, 0, 0),
-                curve: Curves.easeInOut,
-                child: GridView.count(
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  childAspectRatio: 1,
-                  children: List.generate(
-                    30,
-                        (index) => CachedNetworkImage(
-                      imageUrl: "https://picsum.photos/id/$index/100/100",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+      child: Stack(
+        children: [
+          AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            transform: Matrix4.translationValues(_leftImagesMargin, 0, 0),
+            curve: Curves.easeInOut,
+            child: _images(),
           ),
-        );
+          AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            transform: Matrix4.translationValues(_rightImagesMargin, 0, 0),
+            curve: Curves.easeInOut,
+            child: _images(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  GridView _images() {
+    return GridView.count(
+      physics: NeverScrollableScrollPhysics(),
+      crossAxisCount: 3,
+      shrinkWrap: true,
+      childAspectRatio: 1,
+      children: List.generate(
+        30,
+        (index) => CachedNetworkImage(
+          imageUrl: "https://picsum.photos/id/$index/100/100",
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
   }
 
   Widget _selectedIndicator() {
@@ -107,11 +100,7 @@ class _ProfileBodyState extends State<ProfileBody> {
         Expanded(
           child: IconButton(
             onPressed: () {
-              setState(() {
-                _selectedTab = SelectedTab.left;
-                _leftImagesMargin = 0;
-                _rightImagesMargin = size.width;
-              });
+              _tabSelected(SelectedTab.left);
             },
             icon: ImageIcon(
               AssetImage('assets/images/grid.png'),
@@ -124,11 +113,7 @@ class _ProfileBodyState extends State<ProfileBody> {
         Expanded(
           child: IconButton(
             onPressed: () {
-              setState(() {
-                _selectedTab = SelectedTab.right;
-                _leftImagesMargin = -size.width;
-                _rightImagesMargin = 0;
-              });
+              _tabSelected(SelectedTab.right);
             },
             icon: ImageIcon(
               AssetImage('assets/images/saved.png'),
@@ -140,6 +125,23 @@ class _ProfileBodyState extends State<ProfileBody> {
         ),
       ],
     );
+  }
+
+  void _tabSelected(SelectedTab selectedTab) {
+    setState(() {
+      switch (selectedTab) {
+        case SelectedTab.left:
+          _selectedTab = SelectedTab.left;
+          _leftImagesMargin = 0;
+          _rightImagesMargin = size.width;
+          break;
+        case SelectedTab.right:
+          _selectedTab = SelectedTab.right;
+          _leftImagesMargin = -size.width;
+          _rightImagesMargin = 0;
+          break;
+      }
+    });
   }
 
   Padding _editProfileButton() {
