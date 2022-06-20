@@ -13,9 +13,14 @@ class ProfileBody extends StatefulWidget {
 
 class _ProfileBodyState extends State<ProfileBody> {
   SelectedTab _selectedTab = SelectedTab.left;
+  double _leftImagesMargin = 0;
+  double _rightImagesMargin = size.width;
 
   @override
   Widget build(BuildContext context) {
+
+    print(size.width);
+
     return Expanded(
       child: CustomScrollView(
         slivers: [
@@ -30,24 +35,55 @@ class _ProfileBodyState extends State<ProfileBody> {
               ],
             ),
           ),
-          SliverToBoxAdapter(
-            child: GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              childAspectRatio: 1,
-              children: List.generate(
-                30,
-                (index) => CachedNetworkImage(
-                  imageUrl: "https://picsum.photos/id/$index/100/100",
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
+          _imagesPager(),
         ],
       ),
     );
+  }
+
+  SliverToBoxAdapter _imagesPager() {
+    return SliverToBoxAdapter(
+          child: Stack(
+            children: [
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                transform: Matrix4.translationValues(_leftImagesMargin, 0, 0),
+                curve: Curves.easeInOut,
+                child: GridView.count(
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  shrinkWrap: true,
+                  childAspectRatio: 1,
+                  children: List.generate(
+                    30,
+                    (index) => CachedNetworkImage(
+                      imageUrl: "https://picsum.photos/id/$index/100/100",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                transform: Matrix4.translationValues(_rightImagesMargin, 0, 0),
+                curve: Curves.easeInOut,
+                child: GridView.count(
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  shrinkWrap: true,
+                  childAspectRatio: 1,
+                  children: List.generate(
+                    30,
+                        (index) => CachedNetworkImage(
+                      imageUrl: "https://picsum.photos/id/$index/100/100",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
   }
 
   Widget _selectedIndicator() {
@@ -73,6 +109,8 @@ class _ProfileBodyState extends State<ProfileBody> {
             onPressed: () {
               setState(() {
                 _selectedTab = SelectedTab.left;
+                _leftImagesMargin = 0;
+                _rightImagesMargin = size.width;
               });
             },
             icon: ImageIcon(
@@ -88,6 +126,8 @@ class _ProfileBodyState extends State<ProfileBody> {
             onPressed: () {
               setState(() {
                 _selectedTab = SelectedTab.right;
+                _leftImagesMargin = -size.width;
+                _rightImagesMargin = 0;
               });
             },
             icon: ImageIcon(

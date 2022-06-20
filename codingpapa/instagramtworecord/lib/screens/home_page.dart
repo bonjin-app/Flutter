@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:instagramtworecord/screens/feed_screen.dart';
 import 'package:instagramtworecord/screens/profile_screen.dart';
 
+import '../constants/screen_size.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
@@ -24,6 +26,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,

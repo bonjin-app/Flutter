@@ -17,8 +17,6 @@ class Post extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    size ??= MediaQuery.of(context).size;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -120,7 +118,7 @@ class Post extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: 'https://picsum.photos/id/$index/2000/2000',
       placeholder: (context, url) {
-        return CustomProgressIndicator(containerSize: size!.width);
+        return CustomProgressIndicator(containerSize: size.width);
       },
       imageBuilder: (context, imageProvider) {
         return AspectRatio(
