@@ -15,10 +15,25 @@ class ProfileBody extends StatefulWidget {
   State<ProfileBody> createState() => _ProfileBodyState();
 }
 
-class _ProfileBodyState extends State<ProfileBody> {
+class _ProfileBodyState extends State<ProfileBody>
+    with SingleTickerProviderStateMixin {
   SelectedTab _selectedTab = SelectedTab.left;
   double _leftImagesMargin = 0;
   double _rightImagesMargin = size.width;
+  late AnimationController _iconAnimationController;
+
+  @override
+  void initState() {
+    _iconAnimationController =
+        AnimationController(vsync: this, duration: duration);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _iconAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +109,14 @@ class _ProfileBodyState extends State<ProfileBody> {
         IconButton(
           onPressed: () {
             widget.onMenuChanged();
+            _iconAnimationController.status == AnimationStatus.completed
+                ? _iconAnimationController.reverse()
+                : _iconAnimationController.forward();
           },
-          icon: Icon(Icons.menu),
+          icon: AnimatedIcon(
+            icon: AnimatedIcons.menu_close,
+            progress: _iconAnimationController,
+          ),
         ),
       ],
     );
@@ -118,13 +139,13 @@ class _ProfileBodyState extends State<ProfileBody> {
       child: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: duration,
             transform: Matrix4.translationValues(_leftImagesMargin, 0, 0),
             curve: Curves.easeInOut,
             child: _images(),
           ),
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: duration,
             transform: Matrix4.translationValues(_rightImagesMargin, 0, 0),
             curve: Curves.easeInOut,
             child: _images(),
@@ -152,7 +173,7 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   Widget _selectedIndicator() {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: duration,
       alignment: _selectedTab == SelectedTab.left
           ? Alignment.centerLeft
           : Alignment.centerRight,

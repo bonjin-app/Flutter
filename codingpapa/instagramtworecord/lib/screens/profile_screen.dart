@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:instagramtworecord/constants/screen_size.dart';
 import 'package:instagramtworecord/widgets/profile_body.dart';
+import 'package:instagramtworecord/widgets/profile_side_menu.dart';
+
+const duration = Duration(milliseconds: 300);
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final Duration duration = const Duration(milliseconds: 300);
-  final menuWidth = size.width/2;
+  final menuWidth = size.width / 3 * 2;
 
   MenuStatus _menuStatus = MenuStatus.closed;
   double bodyXPosition = 0;
@@ -29,9 +31,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: ProfileBody(
               onMenuChanged: () {
                 setState(() {
-                  _menuStatus = _menuStatus == MenuStatus.closed ? MenuStatus.opened : MenuStatus.closed;
+                  _menuStatus = _menuStatus == MenuStatus.closed
+                      ? MenuStatus.opened
+                      : MenuStatus.closed;
 
-                  switch(_menuStatus) {
+                  switch (_menuStatus) {
                     case MenuStatus.opened:
                       bodyXPosition = -menuWidth;
                       menuXPosition = size.width - menuWidth;
@@ -49,13 +53,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           AnimatedContainer(
             duration: duration,
             curve: Curves.easeInOut,
-            child: Positioned(
-              top: 0,
-              bottom: 0,
-              width: menuWidth,
-              child: Container(
-                color: Colors.deepPurpleAccent,
-              ),
+            child: ProfileSideMenu(
+              menuWidth: menuWidth,
             ),
             transform: Matrix4.translationValues(menuXPosition, 0, 0),
           ),
