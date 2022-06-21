@@ -4,9 +4,12 @@ import 'package:instagramtworecord/constants/screen_size.dart';
 import 'package:instagramtworecord/widgets/rounded_avatar.dart';
 
 import '../constants/common_size.dart';
+import '../screens/profile_screen.dart';
 
 class ProfileBody extends StatefulWidget {
-  ProfileBody({Key? key}) : super(key: key);
+  const ProfileBody({Key? key, required this.onMenuChanged}) : super(key: key);
+
+  final Function onMenuChanged;
 
   @override
   State<ProfileBody> createState() => _ProfileBodyState();
@@ -89,8 +92,10 @@ class _ProfileBodyState extends State<ProfileBody> {
           ),
         ),
         IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.more_horiz),
+          onPressed: () {
+            widget.onMenuChanged();
+          },
+          icon: Icon(Icons.menu),
         ),
       ],
     );
