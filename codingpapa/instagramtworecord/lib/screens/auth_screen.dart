@@ -11,17 +11,30 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-
   int selectedForm = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
-           FadeStack(selectedForm: selectedForm),
+            Expanded(
+              child: Stack(
+                children: [
+                  FadeStack(selectedForm: selectedForm),
+                ],
+              ),
+            ),
             Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
               child: FlatButton(
                 onPressed: () {
                   setState(() {
@@ -32,7 +45,23 @@ class _AuthScreenState extends State<AuthScreen> {
                     }
                   });
                 },
-                child: Text('go to Sign up'),
+                child: RichText(
+                  text: TextSpan(
+                    text: selectedForm == 0
+                        ? 'Already have an account? '
+                        : 'Don\'t have an account? ',
+                    style: TextStyle(color: Colors.grey),
+                    children: [
+                      TextSpan(
+                        text: selectedForm == 0 ? 'Sign In' : 'Sign Up',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
