@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:instagramtworecord/widgets/fade_stack.dart';
-import 'package:instagramtworecord/widgets/sign_in_form.dart';
-import 'package:instagramtworecord/widgets/sign_up_form.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -16,6 +14,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Column(
           children: [
