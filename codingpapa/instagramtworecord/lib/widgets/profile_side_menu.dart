@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagramtworecord/screens/auth_screen.dart';
 
 class ProfileSideMenu extends StatelessWidget {
   const ProfileSideMenu({Key? key, required this.menuWidth}) : super(key: key);
@@ -27,6 +28,10 @@ class ProfileSideMenu extends StatelessWidget {
                 color: Colors.black87,
               ),
               title: Text('Log out'),
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => AuthScreen()));
+              },
             ),
           ],
         ),

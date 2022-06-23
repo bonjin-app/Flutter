@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagramtworecord/screens/home_page.dart';
 
 import '../constants/common_size.dart';
 
@@ -27,6 +28,7 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Container(
         padding: const EdgeInsets.all(common_gap),
         child: Form(
@@ -83,10 +85,14 @@ class _SignUpFormState extends State<SignUpForm> {
                   }
                 },
               ),
+              SizedBox(
+                height: common_xs_gap,
+              ),
               FlatButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    print("Validation Success");
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => HomePage()));
                   }
                 },
                 child: Text(
@@ -100,6 +106,34 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
                 color: Colors.blue,
               ),
+              SizedBox(
+                height: common_s_gap,
+              ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    height: 1,
+                    child: Container(
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                  Container(
+                    height: 3,
+                    width: 60,
+                    color: Colors.grey[50],
+                  ),
+                  Text(
+                    'OR',
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
@@ -120,19 +154,19 @@ class _SignUpFormState extends State<SignUpForm> {
 
   OutlineInputBorder _buildErrorInputBorder() {
     return OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.redAccent,
-        ),
-        borderRadius: BorderRadius.circular(common_s_gap),
-      );
+      borderSide: BorderSide(
+        color: Colors.redAccent,
+      ),
+      borderRadius: BorderRadius.circular(common_s_gap),
+    );
   }
 
   OutlineInputBorder _buildActiveInputBorder() {
     return OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.grey[300]!!,
-        ),
-        borderRadius: BorderRadius.circular(common_s_gap),
-      );
+      borderSide: BorderSide(
+        color: Colors.grey[300]!!,
+      ),
+      borderRadius: BorderRadius.circular(common_s_gap),
+    );
   }
 }
