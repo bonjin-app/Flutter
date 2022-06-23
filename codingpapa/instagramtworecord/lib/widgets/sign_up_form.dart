@@ -88,56 +88,68 @@ class _SignUpFormState extends State<SignUpForm> {
               SizedBox(
                 height: common_xs_gap,
               ),
-              FlatButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => HomePage()));
-                  }
-                },
-                child: Text(
-                  'Join',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                color: Colors.blue,
-              ),
+              _buildSubmitButton(context),
               SizedBox(
                 height: common_s_gap,
               ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    height: 1,
-                    child: Container(
-                      color: Colors.grey[300],
-                    ),
-                  ),
-                  Container(
-                    height: 3,
-                    width: 60,
-                    color: Colors.grey[50],
-                  ),
-                  Text(
-                    'OR',
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ],
-              )
+              _buildDivider(),
+              FlatButton.icon(
+                onPressed: () {},
+                textColor: Colors.blue,
+                icon: ImageIcon(AssetImage('assets/images/facebook.png'),),
+                label: Text('Login with Facebook'),
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  FlatButton _buildSubmitButton(BuildContext context) {
+    return FlatButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomePage()));
+                }
+              },
+              child: Text(
+                'Join',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              color: Colors.blue,
+            );
+  }
+
+  Stack _buildDivider() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Positioned(
+          left: 0,
+          right: 0,
+          height: 1,
+          child: Container(
+            color: Colors.grey[300],
+          ),
+        ),
+        Container(
+          height: 3,
+          width: 60,
+          color: Colors.grey[50],
+        ),
+        Text(
+          'OR',
+          style:
+              TextStyle(color: Colors.grey[500], fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 
@@ -164,7 +176,7 @@ class _SignUpFormState extends State<SignUpForm> {
   OutlineInputBorder _buildActiveInputBorder() {
     return OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.grey[300]!!,
+        color: Colors.grey[300]!,
       ),
       borderRadius: BorderRadius.circular(common_s_gap),
     );
