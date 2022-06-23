@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:instagramtworecord/constants/material_white.dart';
-import 'package:instagramtworecord/screens/auth_screen.dart';
 
 import 'screens/home_page.dart';
 
@@ -16,8 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: white,
       ),
-      // home: HomePage(),
-      home: AuthScreen(),
+      home: HomePage(),
     );
   }
 }

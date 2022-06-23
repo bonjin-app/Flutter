@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagramtworecord/screens/camera_screen.dart';
 import 'package:instagramtworecord/screens/feed_screen.dart';
 import 'package:instagramtworecord/screens/profile_screen.dart';
 
@@ -18,15 +19,20 @@ class _HomePageState extends State<HomePage> {
 
   static List<Widget> _screens = [
     FeedScreen(),
-    Container(color: Colors.red,),
-    Container(color: Colors.blue,),
-    Container(color: Colors.black,),
+    Container(
+      color: Colors.red,
+    ),
+    Container(
+      color: Colors.blue,
+    ),
+    Container(
+      color: Colors.black,
+    ),
     ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
-
     size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -68,8 +74,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onBottomItemClick(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    switch (index) {
+      case 2:
+        _openCamera();
+        break;
+      default:
+        setState(() {
+          _selectedIndex = index;
+        });
+    }
+  }
+
+  void _openCamera() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => CameraScreen()));
   }
 }
