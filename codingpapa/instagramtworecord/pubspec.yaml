@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   cached_network_image: ^3.2.1
   camera: ^0.9.8+1
+  permission_handler: ^10.0.0
 
 dev_dependencies:
   flutter_test:
