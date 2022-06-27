@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:instagramtworecord/screens/camera_screen.dart';
 import 'package:instagramtworecord/screens/feed_screen.dart';
@@ -97,18 +98,17 @@ class _HomePageState extends State<HomePage> {
           label: 'OK',
           onPressed: () {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            AppSettings.openAppSettings();
           },
         ),
       );
+
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
   Future<bool> checkIfPermissionGranted(BuildContext context) async {
     Map<Permission, PermissionStatus> statuses = await [Permission.camera, Permission.microphone].request();
-
-    print("요청완료");
-    print("statuses: $statuses");
 
     bool permitted = true;
     statuses.forEach((permission, status) {
