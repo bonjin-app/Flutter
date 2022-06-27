@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instagramtworecord/screens/camera_screen.dart';
 import 'package:instagramtworecord/screens/feed_screen.dart';
 import 'package:instagramtworecord/screens/profile_screen.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../constants/screen_size.dart';
 
@@ -85,8 +86,37 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _openCamera() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => CameraScreen()));
+  void _openCamera() async {
+    if (await checkIfPermissionGranted(context)) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => CameraScreen()));
+    } else {
+      SnackBar snackBar = SnackBar(
+        content: Text('사진, 파일, 마이크 접근 허용을 해주세요.'),
+        action: SnackBarAction(
+          label: 'OK',
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
+  Future<bool> checkIfPermissionGranted(BuildContext context) async {
+    Map<Permission, PermissionStatus> statuses = await [Permission.camera, Permission.microphone].request();
+
+    print("요청완료");
+    print("statuses: $statuses");
+
+    bool permitted = true;
+    statuses.forEach((permission, status) {
+      if (!status.isGranted) {
+        permitted = false;
+      }
+    });
+
+    return permitted;
   }
 }
