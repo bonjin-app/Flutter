@@ -38,6 +38,7 @@ dependencies:
   camera: ^0.9.8+1
   permission_handler: ^10.0.0
   app_settings: ^4.1.8
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:
