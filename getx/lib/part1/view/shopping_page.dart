@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx/controller/cart_controller.dart';
 
+import '../controller/cart_controller.dart';
 import '../controller/shopping_controller.dart';
 
 class ShoppingPage extends StatelessWidget {

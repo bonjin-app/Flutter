@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:getx/view/shopping_page.dart';
+
+import 'part1/view/shopping_page.dart';
 
 void main() {
   runApp(const MyApp());
