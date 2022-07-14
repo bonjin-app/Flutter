@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controller/controller.dart';
 
 class MyPage extends StatelessWidget {
-  const MyPage({Key? key}) : super(key: key);
+  MyPage({Key? key}) : super(key: key);
+
+  final controller = Get.put(Controller());
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +24,17 @@ class MyPage extends StatelessWidget {
       body: Container(
         child: Padding(
           padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10
+          child: Obx(
+            () => GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, mainAxisSpacing: 10, crossAxisSpacing: 10),
+              itemBuilder: (context, index) {
+                return Container(
+                  color: Colors.red,
+                );
+              },
+              itemCount: controller.productList.length,
             ),
-            itemBuilder: (context, index) {
-              return Container(color: Colors.red,);
-            },
-            itemCount: 20,
           ),
         ),
       ),
