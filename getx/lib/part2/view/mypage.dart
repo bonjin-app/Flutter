@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx/part2/view/product_tile.dart';
 
 import '../controller/controller.dart';
 
@@ -21,21 +22,29 @@ class MyPage extends StatelessWidget {
           IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
         ],
       ),
-      body: Container(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Obx(
-            () => GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, mainAxisSpacing: 10, crossAxisSpacing: 10),
-              itemBuilder: (context, index) {
-                return Container(
-                  color: Colors.red,
-                );
-              },
-              itemCount: controller.productList.length,
-            ),
-          ),
+      body: Obx(
+        () => Container(
+          child: controller.isLoading.value
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Container(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10),
+                      itemBuilder: (context, index) {
+                        return ProductTile(
+                          product: controller.productList[index],
+                        );
+                      },
+                      itemCount: controller.productList.length,
+                    ),
+                  ),
+                ),
         ),
       ),
     );
