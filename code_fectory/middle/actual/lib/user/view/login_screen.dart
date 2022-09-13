@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:actual/common/component/custom_text_form_field.dart';
 import 'package:actual/common/const/colors.dart';
+import 'package:actual/common/const/data.dart';
 import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/common/view/root_tab.dart';
 import 'package:dio/dio.dart';
@@ -86,6 +87,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     );
 
+                    final refreshToken = response.data['refreshToken'];
+                    final accessToken = response.data['accessToken'];
+
+                    await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+                    await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => RootTab(),
@@ -99,8 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    const refreshToken =
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY2MzA1MjY4MSwiZXhwIjoxNjYzMTM5MDgxfQ.VA5C5wuyPfvkB2GXjFOcYoFBiZ90vcq6521N8sjBLAs';
+                    const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY2MzA1MjY4MSwiZXhwIjoxNjYzMTM5MDgxfQ.VA5C5wuyPfvkB2GXjFOcYoFBiZ90vcq6521N8sjBLAs';
                     final response = await dio.post(
                       'http://$ip/auth/token',
                       options: Options(
