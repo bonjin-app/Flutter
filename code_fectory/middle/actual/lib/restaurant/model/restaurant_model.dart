@@ -10,7 +10,7 @@ class RestaurantModel {
   final String id;
   final String name;
   final String thumbUrl;
-  final List<String> tage;
+  final List<String> tags;
   final RestaurantPriceRange priceRange;
   final double ratings;
   final int ratingsCount;
@@ -21,7 +21,7 @@ class RestaurantModel {
     required this.id,
     required this.name,
     required this.thumbUrl,
-    required this.tage,
+    required this.tags,
     required this.priceRange,
     required this.ratings,
     required this.ratingsCount,
@@ -34,7 +34,7 @@ class RestaurantModel {
       id: json['id'],
       name: json['name'],
       thumbUrl: 'http://$ip${json['thumbUrl']}',
-      tage: List<String>.from(json['tags']),
+      tags: List<String>.from(json['tags']),
       priceRange: RestaurantPriceRange.values.firstWhere(
             (element) => element.name == json['priceRange'],
       ),
