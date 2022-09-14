@@ -20,42 +20,29 @@ class RestaurantScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: FutureBuilder<List>(
-            future: paginateRestaurant(),
-            builder: (context, AsyncSnapshot<List> snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              }
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: FutureBuilder<List>(
+          future: paginateRestaurant(),
+          builder: (context, AsyncSnapshot<List> snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-              return ListView.separated(
-                itemBuilder: (context, index) {
-                  final item = snapshot.data![index];
-                  final pItem = RestaurantModel.fromJson(item);
+            return ListView.separated(
+              itemBuilder: (context, index) {
+                final item = snapshot.data![index];
+                final pItem = RestaurantModel.fromJson(item);
 
-                  return RestaurantCard(
-                    image: Image.network(
-                      pItem.thumbUrl,
-                      fit: BoxFit.cover,
-                    ),
-                    name: pItem.name,
-                    tags: pItem.tage,
-                    ratingsCount: pItem.ratingsCount,
-                    deliveryTime: pItem.deliveryTime,
-                    deliveryFee: pItem.deliveryFee,
-                    ratings: pItem.ratings,
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Divider();
-                },
-                itemCount: snapshot.data!.length,
-              );
-            },
-          ),
+                return RestaurantCard.fromModel(pItem);
+              },
+              separatorBuilder: (context, index) {
+                return const Divider();
+              },
+              itemCount: snapshot.data!.length,
+            );
+          },
         ),
       ),
     );
