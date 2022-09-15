@@ -38,9 +38,8 @@ class CustomInterceptor extends Interceptor {
   // 2) 응답을 받을때
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    print('RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
-    print('DATA[${response.data}]');
-    super.onResponse(response, handler);
+    print('[RESPONSE] [${response.requestOptions.method}] ${response.requestOptions.uri}');
+    return super.onResponse(response, handler);
   }
 
   // 3) 에러가 났을때
