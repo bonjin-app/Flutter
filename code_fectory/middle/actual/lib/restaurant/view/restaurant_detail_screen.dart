@@ -1,11 +1,9 @@
-import 'package:actual/common/const/data.dart';
-import 'package:actual/common/dio/dio.dart';
 import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/product/component/product_card.dart';
 import 'package:actual/restaurant/component/restaurant_card.dart';
 import 'package:actual/restaurant/model/restaurant_detail_model.dart';
-import 'package:actual/restaurant/repository/restaurant_repository.dart';
-import 'package:dio/dio.dart';
+import 'package:actual/restaurant/model/restaurant_model.dart';
+import 'package:actual/restaurant/provider/restaurant_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,29 +17,24 @@ class RestaurantDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(restaurantDetailProvider(id));
+
+    if (state == null) {
+      return const DefaultLayout(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return DefaultLayout(
       title: '불타는 떡볶이',
-      child: FutureBuilder<RestaurantDetailModel>(
-        future: ref.watch(restaurantRepositoryProvider).getRestaurantDetail(id: id),
-        builder: (context, AsyncSnapshot<RestaurantDetailModel> snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
-
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          return CustomScrollView(
-            slivers: [
-              renderTop(model: snapshot.data!),
-              renderLabel(),
-              renderProducts(products: snapshot.data!.products),
-            ],
-          );
-        },
+      child: CustomScrollView(
+        slivers: [
+          renderTop(model: state),
+          // renderLabel(),
+          // renderProducts(products: state!.products),
+        ],
       ),
     );
   }
@@ -81,7 +74,7 @@ class RestaurantDetailScreen extends ConsumerWidget {
     );
   }
 
-  SliverToBoxAdapter renderTop({required RestaurantDetailModel model}) {
+  SliverToBoxAdapter renderTop({required RestaurantModel model}) {
     return SliverToBoxAdapter(
       child: RestaurantCard.fromModel(model: model, isDetail: true),
     );
