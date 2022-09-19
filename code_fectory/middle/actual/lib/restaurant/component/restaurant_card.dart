@@ -13,6 +13,7 @@ class RestaurantCard extends StatelessWidget {
   final double ratings;
   final bool isDetail;
   final String? detail;
+  final String? heroKey;
 
   const RestaurantCard({
     Key? key,
@@ -25,6 +26,7 @@ class RestaurantCard extends StatelessWidget {
     required this.ratings,
     this.isDetail = false,
     this.detail,
+    this.heroKey,
   }) : super(key: key);
 
   factory RestaurantCard.fromModel({required RestaurantModel model, bool isDetail = false}) {
@@ -35,6 +37,7 @@ class RestaurantCard extends StatelessWidget {
       ),
       name: model.name,
       tags: model.tags,
+      heroKey: model.id,
       ratingsCount: model.ratingsCount,
       deliveryTime: model.deliveryTime,
       deliveryFee: model.deliveryFee,
@@ -48,11 +51,15 @@ class RestaurantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if(isDetail)
-          image
-        else ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: image,
+        HeroMode(
+          enabled: heroKey != null,
+          child: Hero(
+            tag: ObjectKey(heroKey),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(isDetail ? 0 : 12),
+              child: image,
+            ),
+          ),
         ),
         const SizedBox(
           height: 16,
