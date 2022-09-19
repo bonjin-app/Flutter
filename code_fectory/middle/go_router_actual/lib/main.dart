@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_router_actual/screen/home_screen.dart';
+import 'package:go_router_actual/screen/one_screen.dart';
 
 void main() {
-  runApp(const _App());
+  runApp(_App());
 }
 
 class _App extends StatelessWidget {
   const _App({Key? key}) : super(key: key);
 
   GoRouter get _router => GoRouter(
-    initialLocation: '/',
+        initialLocation: '/',
         routes: [
           GoRoute(
             path: '/',
             builder: (context, state) => HomeScreen(),
+            routes: [
+              GoRoute(
+                path: 'one',
+                builder: (context, state) => OneScreen(),
+              ),
+            ],
           ),
         ],
       );
