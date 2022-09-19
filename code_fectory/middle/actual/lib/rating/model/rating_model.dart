@@ -1,6 +1,8 @@
 import 'package:actual/common/model/model_with_id.dart';
 import 'package:actual/common/utils/data_utils.dart';
+import 'package:actual/rating/component/rating_card.dart';
 import 'package:actual/user/model/user_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'rating_model.g.dart';
@@ -12,9 +14,7 @@ class RatingModel implements IModelWithId {
   final UserModel user;
   final int rating;
   final String content;
-  @JsonKey(
-    fromJson: DataUtils.listPathsToUrls
-  )
+  @JsonKey(fromJson: DataUtils.listPathsToUrls)
   final List<String> imgUrls;
 
   RatingModel({
@@ -25,6 +25,6 @@ class RatingModel implements IModelWithId {
     required this.imgUrls,
   });
 
-  factory RatingModel.fromJson(Map<String, dynamic> json)
-  => _$RatingModelFromJson(json);
+  factory RatingModel.fromJson(Map<String, dynamic> json) =>
+      _$RatingModelFromJson(json);
 }
