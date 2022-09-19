@@ -7,11 +7,8 @@ abstract class CursorPaginationBase {}
 class CursorPaginationError extends CursorPaginationBase {
   final String message;
 
-  CursorPaginationError({
-    required this.message
-  });
+  CursorPaginationError({required this.message});
 }
-
 
 class CursorPaginationLoading extends CursorPaginationBase {}
 
@@ -27,9 +24,19 @@ class CursorPagination<T> extends CursorPaginationBase {
     required this.data,
   });
 
-  factory CursorPagination.fromJson(Map<String, dynamic> json,
-      T Function(Object? json) fromJsonT)
-  => _$CursorPaginationFromJson(json, fromJsonT);
+  CursorPagination copyWith({
+    CursorPaginationMeta? meta,
+    List<T>? data,
+  }) {
+    return CursorPagination(
+      meta: meta ?? this.meta,
+      data: data ?? this.data,
+    );
+  }
+
+  factory CursorPagination.fromJson(
+          Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
+      _$CursorPaginationFromJson(json, fromJsonT);
 }
 
 @JsonSerializable()
@@ -41,6 +48,16 @@ class CursorPaginationMeta {
     required this.count,
     required this.hasMore,
   });
+
+  CursorPaginationMeta copyWith({
+    int? count,
+    bool? hasMore,
+  }) {
+    return CursorPaginationMeta(
+      count: count ?? this.count,
+      hasMore: hasMore ?? this.hasMore,
+    );
+  }
 
   factory CursorPaginationMeta.fromJson(Map<String, dynamic> json) =>
       _$CursorPaginationMetaFromJson(json);
