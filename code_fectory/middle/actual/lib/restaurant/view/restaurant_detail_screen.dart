@@ -10,10 +10,12 @@ import 'package:actual/restaurant/model/restaurant_detail_model.dart';
 import 'package:actual/restaurant/model/restaurant_model.dart';
 import 'package:actual/restaurant/provider/restaurant_provider.dart';
 import 'package:actual/restaurant/provider/restaurant_rating_provider.dart';
+import 'package:actual/restaurant/view/basket_screen.dart';
 import 'package:actual/user/provider/basket_provider.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../../product/model/product_model.dart';
@@ -85,7 +87,9 @@ class _RestaurantDetailScreenState
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: PRIMARY_COLOR,
-        onPressed: () {},
+        onPressed: () {
+          context.pushNamed(BasketScreen.routeName);
+        },
         child: Badge(
           showBadge: basket.isNotEmpty,
           badgeContent: Text(

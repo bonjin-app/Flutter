@@ -1,5 +1,6 @@
 import 'package:actual/common/view/root_tab.dart';
 import 'package:actual/common/view/splash_screen.dart';
+import 'package:actual/restaurant/view/basket_screen.dart';
 import 'package:actual/restaurant/view/restaurant_detail_screen.dart';
 import 'package:actual/user/model/user_model.dart';
 import 'package:actual/user/provider/user_me_provider.dart';
@@ -27,16 +28,23 @@ class AuthProvider extends ChangeNotifier {
 
   List<GoRoute> get routes => [
         GoRoute(
-            path: '/',
-            name: RootTab.routeName,
-            builder: (context, state) => RootTab(),
-            routes: [
-              GoRoute(
-                path: 'restaurant/:rid',
-                name: RestaurantDetailScreen.routeName,
-                builder: (_, state) => RestaurantDetailScreen(id: state.params['rid']!),
-              ),
-            ]),
+          path: '/',
+          name: RootTab.routeName,
+          builder: (context, state) => RootTab(),
+          routes: [
+            GoRoute(
+              path: 'restaurant/:rid',
+              name: RestaurantDetailScreen.routeName,
+              builder: (_, state) =>
+                  RestaurantDetailScreen(id: state.params['rid']!),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: '/basket',
+          name: BasketScreen.routeName,
+          builder: (context, state) => BasketScreen(),
+        ),
         GoRoute(
           path: '/splash',
           name: SplashScreen.routeName,
