@@ -2,9 +2,12 @@ import 'package:actual/common/const/colors.dart';
 import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/product/view/product_screen.dart';
 import 'package:actual/restaurant/view/restaurant_screen.dart';
+import 'package:actual/user/view/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class RootTab extends StatefulWidget {
+  static String get routeName => 'home';
+
   const RootTab({Key? key}) : super(key: key);
 
   @override
@@ -46,8 +49,10 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
         children: [
           RestaurantScreen(),
           ProductScreen(),
-          Container(child: Text('주문'),),
-          Container(child: Text('프로필'),),
+          Container(
+            child: Text('주문'),
+          ),
+          ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -61,22 +66,13 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
         },
         currentIndex: currentIndex,
         items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: '홈'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: '홈'
-          ),
+              icon: Icon(Icons.fastfood_outlined), label: '음식'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood_outlined),
-            label: '음식'
-          ),
+              icon: Icon(Icons.receipt_long_outlined), label: '주문'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.receipt_long_outlined),
-              label: '주문'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-              label: '프로필'
-          ),
+              icon: Icon(Icons.person_outline), label: '프로필'),
         ],
       ),
     );

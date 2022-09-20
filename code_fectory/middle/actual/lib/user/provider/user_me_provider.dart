@@ -1,10 +1,24 @@
 import 'package:actual/common/const/data.dart';
+import 'package:actual/common/secure_storage/secure_storage.dart';
 import 'package:actual/user/model/user_model.dart';
+import 'package:actual/user/provider/auth_provider.dart';
 import 'package:actual/user/repository/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../repository/user_me_repository.dart';
+
+final userMeProvider = StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  final userMeRepository = ref.watch(userMeRepositoryProvider);
+  final storage = ref.watch(secureStorageProvider);
+
+  return UserMeStateNotifier(
+    authRepository: authRepository,
+    repository: userMeRepository,
+    storage: storage,
+  );
+});
 
 class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   final AuthRepository authRepository;
@@ -29,8 +43,13 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       return;
     }
 
-    final response = await repository.getMe();
-    state = response;
+    try {
+      final response = await repository.getMe();
+      state = response;
+
+    } catch (e) {
+      state = null;
+    }
   }
 
   Future<UserModelBase> login({
