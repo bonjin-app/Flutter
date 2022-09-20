@@ -20,7 +20,7 @@ class DefaultLayout extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: renderAppBar(),
-      body: child,
+      body: SafeArea(child: child),
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
     );
