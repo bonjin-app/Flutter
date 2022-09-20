@@ -1,7 +1,6 @@
 import 'package:actual/common/const/data.dart';
 import 'package:actual/common/secure_storage/secure_storage.dart';
 import 'package:actual/user/model/user_model.dart';
-import 'package:actual/user/provider/auth_provider.dart';
 import 'package:actual/user/repository/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -56,22 +55,16 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     required String username,
     required String password,
   }) async {
-    try {
-      state = UserModelLoading();
+    state = UserModelLoading();
 
-      final response =
-          await authRepository.login(username: username, password: password);
+    final response = await authRepository.login(username: username, password: password);
 
-      await storage.write(key: REFRESH_TOKEN_KEY, value: response.refreshToken);
-      await storage.write(key: ACCESS_TOKEN_KEY, value: response.accessToken);
+    await storage.write(key: REFRESH_TOKEN_KEY, value: response.refreshToken);
+    await storage.write(key: ACCESS_TOKEN_KEY, value: response.accessToken);
 
-      final userResponse = await repository.getMe();
-      state = userResponse;
-      return userResponse;
-    } catch (e) {
-      state = UserModelError(message: '로그인에 실패했습니다.');
-      return Future.value(state);
-    }
+    final userResponse = await repository.getMe();
+    state = userResponse;
+    return userResponse;
   }
 
   Future<void> logout() async {
