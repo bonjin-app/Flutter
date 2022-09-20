@@ -1,14 +1,32 @@
 import 'package:actual/product/model/product_model.dart';
 import 'package:actual/user/model/basket_item_model.dart';
+import 'package:actual/user/model/patch_basket_body.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:collection/collection.dart';
 
-final basketProvider = StateNotifierProvider<BasketStateNotifier, List<BasketItemModel>>((ref) {
-  return BasketStateNotifier();
+import '../repository/user_me_repository.dart';
+
+final basketProvider =
+    StateNotifierProvider<BasketStateNotifier, List<BasketItemModel>>((ref) {
+  final repository = ref.watch(userMeRepositoryProvider);
+  return BasketStateNotifier(repository: repository);
 });
 
 class BasketStateNotifier extends StateNotifier<List<BasketItemModel>> {
-  BasketStateNotifier() : super([]);
+  final UserMeRepository repository;
+
+  BasketStateNotifier({
+    required this.repository,
+  }) : super([]);
+
+  Future<void> patchBasket() async {
+    await repository.patchBasket(
+        body: PatchBasketBody(basket: [
+      ...state.map(
+        (e) => PatchBasketBodyBasket(productId: e.product.id, count: e.count),
+      ),
+    ]));
+  }
 
   Future<void> addToBasket({
     required ProductModel product,
@@ -28,6 +46,10 @@ class BasketStateNotifier extends StateNotifier<List<BasketItemModel>> {
         BasketItemModel(product: product, count: 1),
       ];
     }
+
+    // Optimistic Response (긍정적 응답)
+    // 응답이 성공할거라고 가정하고 상태를 먼저 업데이트 함
+    await patchBasket();
   }
 
   Future<void> removeFromBasket({
@@ -46,11 +68,15 @@ class BasketStateNotifier extends StateNotifier<List<BasketItemModel>> {
         state.firstWhere((element) => element.product.id == product.id);
 
     if (existingProduct.count == 1 || isDelete) {
-      state = state.where((element) => element.product.id != product.id).toList();
+      state =
+          state.where((element) => element.product.id != product.id).toList();
     } else {
-      state = state.map((e) =>
+      state = state
+          .map((e) =>
               e.product.id == product.id ? e.copyWith(count: e.count - 1) : e)
           .toList();
     }
+
+    await patchBasket();
   }
 }
