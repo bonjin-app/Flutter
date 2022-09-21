@@ -2,18 +2,36 @@ import 'package:actual/common/model/cursor_pagination_model.dart';
 import 'package:actual/common/model/model_with_id.dart';
 import 'package:actual/common/model/pagination_params.dart';
 import 'package:actual/common/repository/base_pagination_repository.dart';
+import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PaginationProvider<
-T extends IModelWithId,
-U extends IBasePaginationRepository<T>
-> extends StateNotifier<CursorPaginationBase> {
+class _PaginationInto {
+  final int fetchCount;
+  final bool fetchMore;
+  final bool forceReFetch;
+
+  _PaginationInto({
+    this.fetchCount = 20,
+    this.fetchMore = false,
+    this.forceReFetch = false,
+  });
+}
+
+class PaginationProvider<T extends IModelWithId,
+        U extends IBasePaginationRepository<T>>
+    extends StateNotifier<CursorPaginationBase> {
   final U repository;
+  final paginationThrottle = Throttle(const Duration(seconds: 5),
+      initialValue: _PaginationInto(), checkEquality: false);
 
   PaginationProvider({
     required this.repository,
   }) : super(CursorPaginationLoading()) {
     paginate();
+
+    paginationThrottle.values.listen((event) {
+      _throttlePagination(event);
+    });
   }
 
   Future<void> paginate({
@@ -21,6 +39,18 @@ U extends IBasePaginationRepository<T>
     bool fetchMore = false,
     bool forceReFetch = false,
   }) async {
+    paginationThrottle.setValue(_PaginationInto(
+      forceReFetch: forceReFetch,
+      fetchMore: fetchMore,
+      fetchCount: fetchCount,
+    ));
+  }
+
+  void _throttlePagination(_PaginationInto info) async {
+    final fetchCount = info.fetchCount;
+    final fetchMore = info.fetchMore;
+    final forceReFetch = info.forceReFetch;
+
     try {
       // 5가지 가능성
       // State 상태
